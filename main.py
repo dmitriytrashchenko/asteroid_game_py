@@ -1,3 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Векторная игра "Астероиды"
+Автор: Claude AI
+Версия: 2.0
+
+Требования:
+- Python 3.6+
+- pygame
+
+Установка зависимостей:
+pip install pygame
+
+Запуск:
+python main.py
+"""
+
 import pygame
 import math
 import random
@@ -658,5 +676,17 @@ class Game:
         sys.exit()
 
 if __name__ == "__main__":
-    game = Game()
-    game.run()
+    print("Запуск игры 'Векторные Астероиды'...")
+    print("Убедитесь, что установлен pygame: pip install pygame")
+    
+    try:
+        game = Game()
+        game.run()
+    except KeyboardInterrupt:
+        print("\nИгра прервана пользователем")
+        pygame.quit()
+        sys.exit()
+    except Exception as e:
+        print(f"Ошибка при запуске игры: {e}")
+        print("Проверьте, что pygame установлен правильно")
+        sys.exit(1)
