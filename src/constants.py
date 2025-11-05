@@ -233,6 +233,7 @@ STATE_ROOM_TRANSITION = 7
 STATE_SHOP = 8
 STATE_UPGRADES = 9
 STATE_LEVEL_SELECT = 10
+STATE_META_PROGRESSION = 11  # Meta-progression/permanent upgrades menu
 
 # Minimap constants
 MINIMAP_SIZE = 150
