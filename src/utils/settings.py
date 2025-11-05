@@ -32,8 +32,6 @@ class Settings:
         self.music_volume: float = 0.5
         self.sound_volume: float = 0.7
         self.difficulty: int = DIFFICULTY_NORMAL
-        self.fullscreen: bool = False
-        self.language: str = "ru"  # "ru" or "en"
         self.controls: Dict[str, int] = {
             'thrust': pygame.K_w,
             'left': pygame.K_a,
@@ -54,8 +52,6 @@ class Settings:
                 'music_volume': self.music_volume,
                 'sound_volume': self.sound_volume,
                 'difficulty': self.difficulty,
-                'fullscreen': self.fullscreen,
-                'language': self.language,
                 'controls': {k: v for k, v in self.controls.items()}
             }
             with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
@@ -96,16 +92,6 @@ class Settings:
                 self.difficulty = difficulty
             else:
                 self.difficulty = DIFFICULTY_NORMAL
-
-            # Load fullscreen
-            self.fullscreen = data.get('fullscreen', False)
-
-            # Load language
-            language = data.get('language', 'ru')
-            if language in ['ru', 'en']:
-                self.language = language
-            else:
-                self.language = 'ru'
 
             # Validate and load controls
             if 'controls' in data and isinstance(data['controls'], dict):

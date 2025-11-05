@@ -15,8 +15,6 @@ from ..constants import (
     SHIP_MAX_SPEED,
     SHIP_ROTATION_SPEED,
     SHIP_FRICTION,
-    SHIP_BASE_HEALTH,
-    SHIP_BASE_DAMAGE,
     WHITE,
     RED,
     CYAN,
@@ -72,15 +70,6 @@ class Ship(GameObject):
         # Power-ups
         self.active_powerups: dict = {}
         self.has_shield: bool = False
-
-        # Health system (hearts like Isaac)
-        self.max_health: int = SHIP_BASE_HEALTH
-        self.health: int = self.max_health
-
-        # Combat stats
-        self.damage: int = SHIP_BASE_DAMAGE
-        self.fire_rate_multiplier: float = 1.0
-        self.speed_multiplier: float = 1.0
 
     def update(self, dt: float):
         """
@@ -231,72 +220,3 @@ class Ship(GameObject):
             True if ship can be damaged
         """
         return not self.invulnerable and not self.has_shield
-
-    def take_damage(self, damage: int = 1):
-        """
-        Take damage (lose hearts).
-
-        Args:
-            damage: Damage amount (half-hearts)
-        """
-        if self.has_shield:
-            self.has_shield = False
-            return
-
-        if not self.invulnerable:
-            self.health -= damage
-            if self.health <= 0:
-                self.health = 0
-                self.alive = False
-            else:
-                # Temporary invulnerability after hit
-                self.make_invulnerable(1.0)
-
-    def heal(self, amount: int = 1):
-        """
-        Restore health.
-
-        Args:
-            amount: Health to restore (half-hearts)
-        """
-        self.health = min(self.health + amount, self.max_health)
-
-    def increase_max_health(self, amount: int = 1):
-        """
-        Increase maximum health.
-
-        Args:
-            amount: Amount to increase
-        """
-        self.max_health += amount
-        self.health += amount  # Also heal
-
-    def get_health_percentage(self) -> float:
-        """
-        Get health as percentage.
-
-        Returns:
-            Health percentage (0-1)
-        """
-        return self.health / self.max_health if self.max_health > 0 else 0
-
-    def is_alive(self) -> bool:
-        """Check if ship is alive."""
-        return self.alive and self.health > 0
-
-    def apply_upgrades(self, max_health_bonus: int = 0, damage_bonus: int = 0,
-                      fire_rate_bonus: float = 1.0, speed_bonus: float = 1.0):
-        """
-        Apply permanent upgrades from meta-progression.
-
-        Args:
-            max_health_bonus: Additional max health
-            damage_bonus: Additional damage
-            fire_rate_bonus: Fire rate multiplier
-            speed_bonus: Speed multiplier
-        """
-        self.max_health = SHIP_BASE_HEALTH + max_health_bonus
-        self.health = self.max_health
-        self.damage = SHIP_BASE_DAMAGE + damage_bonus
-        self.fire_rate_multiplier = fire_rate_bonus
-        self.speed_multiplier = speed_bonus
